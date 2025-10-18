@@ -6,6 +6,6 @@ WORKDIR /home/node/app
 
 COPY package*.json ./
 
-EXPOSE 3001
+EXPOSE 3000
 
 CMD [ "/home/node/app/.docker/start-dev.sh" ]
