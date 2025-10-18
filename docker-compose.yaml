@@ -20,3 +20,11 @@ services:
       timeout: 10s
       retries: 5
       start_period: 30s
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: ./.docker/Dockerfile.dev
+    volumes:
+      - ./frontend:/home/node/app:cached
+    ports:
+      - "4200:4200"

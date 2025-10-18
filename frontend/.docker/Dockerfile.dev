@@ -1,0 +1,21 @@
+FROM node:24-alpine
+
+
+
+
+USER node
+
+RUN mkdir -p /home/node/.npm-global && \
+    npm config set prefix /home/node/.npm-global && \
+    echo "export PATH=/home/node/.npm-global/bin:\$PATH" >> /home/node/.profile && \
+    npm install -g @angular/cli
+
+ENV PATH=/home/node/.npm-global/bin:$PATH
+
+WORKDIR /home/node/app
+
+COPY package*.json ./
+
+EXPOSE 4200
+
+CMD [ "/home/node/app/.docker/start-dev.sh" ]
