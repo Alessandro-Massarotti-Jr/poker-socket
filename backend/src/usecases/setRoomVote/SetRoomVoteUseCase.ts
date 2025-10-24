@@ -16,7 +16,6 @@ export class SetRoomVoteUseCase {
       throw new Error("Participant not found");
     }
     participant.setVote(new Vote(data.vote));
-    room.addParticipant(participant);
     await this.roomRepository.save(room);
     return room;
   }

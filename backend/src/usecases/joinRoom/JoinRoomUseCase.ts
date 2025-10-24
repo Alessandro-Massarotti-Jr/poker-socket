@@ -8,12 +8,10 @@ export class JoinRoomUseCase {
   constructor(private readonly roomRepository: IRoomRepository) {}
 
   public async execute(data: JoinRoomDTO): Promise<Room> {
-    let room = await this.roomRepository.find({ id: data.roomId });
+    const room = await this.roomRepository.find({ id: data.roomId });
 
     if (!room) {
-      room = Room.create({
-        id: "1234",
-      });
+      throw new Error("Room not found");
     }
 
     if (room.findParticipant(data.participant.id)) {

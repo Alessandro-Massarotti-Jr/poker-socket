@@ -21,6 +21,6 @@ export class CreateRoomWebSocketController {
       participant: { id: socket.id, name: validation.data.participantName },
     });
     socket.join(room.id);
-    socket.emit("room:created", { room: room });
+    socket.in(room.id).emit("room:created", { room: room });
   }
 }
