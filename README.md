@@ -4,6 +4,24 @@ This Repository is for a poker aplication Using webSockets for communication
 
 Node.js with socket.io
 
+## Develop
+
+Run inside a container with docker:
+
+
+```bash
+docker compose up
+```
+
+```bash
+docker compose exec backend sh
+```
+
+```sh
+npm run start-dev
+```
+
+
 
 ## TO DO
 
@@ -12,6 +30,24 @@ Node.js with socket.io
 # frontend
 
 Maybe angular? 
+
+## Develop
+
+Run inside a container with docker:
+
+```bash
+docker compose up
+```
+
+
+```bash
+docker compose exec frontend sh
+```
+
+```sh
+npm run start
+```
+
 
 <br>
 
