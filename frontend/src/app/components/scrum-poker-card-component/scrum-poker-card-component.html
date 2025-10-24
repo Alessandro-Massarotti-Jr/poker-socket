@@ -4,6 +4,7 @@ class=" bg-primary border border-base rounded-lg p-2  transition w-18 h-28"
     'outline-2 outline-accent': selected,
     'hover:bg-secondary cursor-pointer': !disabled
   }"
+  (click)="!disabled ? onClick() : null"
 >
  {{ text || 'X' }}
 </button>

@@ -6,7 +6,7 @@
     </p>
     <div class="flex gap-2 flex-wrap">
       @for(cardOption of cardOptions; track cardOption){
-        <app-scrum-poker-card-component text="{{cardOption}}"></app-scrum-poker-card-component>
+        <app-scrum-poker-card-component text="{{cardOption}}" [onClick]="setVote(cardOption)"></app-scrum-poker-card-component>
       }
     </div>
   </div>

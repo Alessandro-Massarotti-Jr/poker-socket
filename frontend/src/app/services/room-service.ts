@@ -3,20 +3,14 @@ import { io, Socket } from 'socket.io-client';
 import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
+import { Room } from '../interfaces/room';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RoomService {
   private socket: Socket;
-  private roomSubject = new BehaviorSubject<{
-    id: string;
-    participants: {
-      id: string;
-      name: string;
-      vote: string | null;
-    }[];
-  }>({ id: '', participants: [] });
+  private roomSubject = new BehaviorSubject<Room>({ id: '', participants: [] });
   public room$ = this.roomSubject.asObservable();
 
   constructor(private router: Router) {
@@ -43,6 +37,28 @@ export class RoomService {
 
     this.socket.on('room:clearedVotes', ({ room }) => {
       this.roomSubject.next(room);
+    });
+
+    this.socket.on('connect_error', () => {
+      this.router.navigate(['/'], { state: { errorMessage: 'Error when connecting with server' } });
+    });
+
+    this.socket.on('error', () => {
+      this.router.navigate(['/'], {
+        state: { errorMessage: 'Unexpected error with server connection' },
+      });
+    });
+
+    this.socket.on('aplication:error', (error) => {
+      this.router.navigate(['/'], {
+        state: { errorMessage: `Oops, some error happened: ${error.message}` },
+      });
+    });
+
+    this.socket.on('disconnect', () => {
+      this.router.navigate(['/'], {
+        state: { errorMessage: 'Client disconected' },
+      });
     });
 
     this.socket.connect();

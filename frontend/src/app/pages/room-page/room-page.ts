@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ScrumPokerCardComponent } from '../../components/scrum-poker-card-component/scrum-poker-card-component';
 import { environment } from '../../../environments/environment';
 import { RoomService } from '../../services/room-service';
+import { Room } from '../../interfaces/room';
 
 @Component({
   standalone: true,
@@ -14,14 +15,7 @@ import { RoomService } from '../../services/room-service';
 export class RoomPage {
   private roomId: string = '';
   public cardOptions: string[] = environment.cardOptions;
-  public room: {
-    id: string;
-    participants: {
-      id: string;
-      name: string;
-      vote: string | null;
-    }[];
-  } = { id: '', participants: [] };
+  public room: Room = { id: '', participants: [] };
 
   constructor(private route: ActivatedRoute, private roomService: RoomService) {}
 
@@ -36,5 +30,11 @@ export class RoomPage {
       },
     });
     this.roomService.joinRoom({ roomId: this.roomId, participantName: 'sample' });
+  }
+
+  setVote(vote: string): Function {
+    return () => {
+      this.roomService.voteRoom({ roomId: this.roomId, vote });
+    };
   }
 }
