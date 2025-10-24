@@ -19,6 +19,10 @@ Promise.all([publisherClient.connect(), subscriberClient.connect()]);
 
 const webSocketServer = new WebSocketServer({
   adapter: createAdapter(publisherClient, subscriberClient),
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"],
+  },
 });
 
 const roomRepository = MemoryRoomRepository.getInstance();
