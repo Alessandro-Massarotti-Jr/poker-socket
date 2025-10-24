@@ -1,0 +1,9 @@
+<button 
+class=" bg-primary border border-base rounded-lg p-2  transition w-18 h-28"
+[ngClass]="{
+    'outline-2 outline-accent': selected,
+    'hover:bg-secondary cursor-pointer': !disabled
+  }"
+>
+ {{ text || 'X' }}
+</button>

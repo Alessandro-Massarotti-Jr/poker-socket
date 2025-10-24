@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { RoomService } from '../../services/room-service';
 
 @Component({
   standalone: true,
@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 export class HomePage {
   form: FormGroup;
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(private fb: FormBuilder, private roomService: RoomService) {
     this.form = this.fb.group({
       name: ['', Validators.required],
     });
@@ -21,9 +21,6 @@ export class HomePage {
   createRoom() {
     if (this.form.invalid) return;
     const participantName = this.form.value.name!.trim();
-
-    console.log(participantName);
-
-    this.router.navigate(['/room/1']);
+    this.roomService.createRoom({ participantName });
   }
 }

@@ -1,52 +1,33 @@
 <div class="flex flex-col gap-8 p-6 font-sans">
-
-  <!-- Cards Section -->
   <div>
     <h2 class="text-lg font-semibold mb-4 text-accents">Provide an effort estimate</h2>
     <p class="text-sm text-secondary mb-4">
       Each team member should estimate the complexity of the task (user story) to be completed.
     </p>
-
-    <div class="grid grid-cols-6 md:grid-cols-12 gap-4">
-      <!-- Example cards -->
-      <button class="bg-primary border border-base rounded-lg p-6 hover:bg-secondary transition">
-        ?
-      </button>
-      <button class="bg-primary border border-base rounded-lg p-6 hover:bg-secondary transition">
-        ☕
-      </button>
-      <button class="bg-primary border border-base rounded-lg p-6 hover:bg-secondary transition">
-        0
-      </button>
-      <button class="bg-primary border border-base rounded-lg p-6 hover:bg-secondary transition">
-        0.5
-      </button>
-      <button class="bg-primary border border-base rounded-lg p-6 hover:bg-secondary transition">
-        1
-      </button>
-      <button class="bg-primary border border-base rounded-lg p-6 hover:bg-secondary transition">
-        2
-      </button>
-      <!-- continue com os demais cards -->
+    <div class="flex gap-2 flex-wrap">
+      @for(cardOption of cardOptions; track cardOption){
+        <app-scrum-poker-card-component text="{{cardOption}}"></app-scrum-poker-card-component>
+      }
     </div>
   </div>
-
-  <!-- Participants Section -->
   <div>
-    <h2 class="text-lg font-semibold mb-4 text-accents">Participants</h2>
+    <div class="mt-4 flex gap-2">
+      <button class="bg-accents cursor-pointer text-primary px-4 py-2 rounded hover:opacity-90 transition">Delete Estimates</button>
+      <button class="bg-secondary cursor-pointer text-primary px-4 py-2 rounded hover:opacity-90 transition">Show</button>
+    </div>
+
+    <h2 class="text-lg font-semibold mb-4 text-accents">Participants:</h2>
     <div class="bg-primary border border-base rounded-lg shadow overflow-hidden">
       <div class="flex items-center justify-between p-4 border-b border-base">
         <span class="font-medium text-accents">Name</span>
         <span class="font-medium text-accents">Story Points</span>
       </div>
-      <div class="p-4 flex items-center justify-between">
-        <span class="text-accents">aa</span>
-        <div type="number" class="border rounded px-2 py-1 w-20 h-20 text-center border-base bg-secondary text-accents"></div>
-      </div>
-    </div>
-    <div class="mt-4 flex gap-2">
-      <button class="bg-accents text-primary px-4 py-2 rounded hover:opacity-90 transition">Delete Estimates</button>
-      <button class="bg-secondary text-primary px-4 py-2 rounded hover:opacity-90 transition">Show</button>
+        @for (participant of room.participants; track participant.id) {
+          <div class="p-4 flex items-center justify-between">
+            <span class="text-accents">{{participant.name}}</span>
+            <app-scrum-poker-card-component text="{{participant.vote}}" [selected]="true" [disabled]="true"></app-scrum-poker-card-component>
+          </div>
+        }
     </div>
   </div>
 
