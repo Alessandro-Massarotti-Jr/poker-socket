@@ -1,8 +1,8 @@
-import { MemoryRoomRepository } from "../../repositories/roomRepository/implementations/MemoryRoomRepository";
+import { RedisRoomRepository } from "../../repositories/roomRepository/implementations/RedisRoomRepository";
 import { SetRoomVoteUseCase } from "./SetRoomVoteUseCase";
 import { SetRoomVoteWebSocketController } from "./SetRoomVoteWebSocketController";
 
-const roomRepository = MemoryRoomRepository.getInstance();
+const roomRepository = RedisRoomRepository.getInstance();
 const setRoomVoteUseCase = new SetRoomVoteUseCase(roomRepository);
 const setRoomVoteWebSocketController = new SetRoomVoteWebSocketController(
   setRoomVoteUseCase
