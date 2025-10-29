@@ -6,5 +6,20 @@ class=" bg-primary border border-base rounded-lg p-2  transition w-18 h-28"
   }"
   (click)="!disabled ? onClick() : null"
 >
- {{ text || 'X' }}
+
+@if (hidden) {
+  @if (text) {
+    <img src="/icons/check-circle.svg" alt="Hidden vote icon" class="w-6 h-6 mx-auto" />
+  } @else {
+    <img src="/icons/empty.svg" alt="Hidden no vote icon" class="w-6 h-6 mx-auto" />
+  }
+} @else {
+  @if (text) {
+    {{ text }}
+  } @else {
+    <img src="/icons/smiley-sad.svg" alt="No vote icon" class="w-6 h-6 mx-auto" />
+  }
+}
+
+
 </button>

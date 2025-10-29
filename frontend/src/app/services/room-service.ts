@@ -10,7 +10,7 @@ import { Room } from '../interfaces/room';
 })
 export class RoomService {
   private socket: Socket;
-  private roomSubject = new BehaviorSubject<Room>({ id: '', participants: [] });
+  private roomSubject = new BehaviorSubject<Room>({ id: '', hidden: true, participants: [] });
   public room$ = this.roomSubject.asObservable();
 
   public participantSubject = new BehaviorSubject<{ id: string; name: string }>({
@@ -51,6 +51,14 @@ export class RoomService {
     });
 
     this.socket.on('room:left', ({ room }) => {
+      this.roomSubject.next(room);
+    });
+
+    this.socket.on('room:votesHidden', ({ room }) => {
+      this.roomSubject.next(room);
+    });
+
+    this.socket.on('room:votesShowed', ({ room }) => {
       this.roomSubject.next(room);
     });
 
@@ -100,5 +108,13 @@ export class RoomService {
 
   setParticipantName({ participantName }: { participantName: string }) {
     this.participantSubject.next({ ...this.participantSubject.value, name: participantName });
+  }
+
+  hideRoomVotes({ roomId }: { roomId: string }) {
+    this.socket.emit('room:votesHide', { roomId });
+  }
+
+  showRoomVotes({ roomId }: { roomId: string }) {
+    this.socket.emit('room:votesShow', { roomId });
   }
 }

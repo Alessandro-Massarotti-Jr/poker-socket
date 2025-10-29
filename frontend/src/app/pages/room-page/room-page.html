@@ -6,14 +6,18 @@
     </p>
     <div class="flex gap-2 flex-wrap">
       @for(cardOption of cardOptions; track cardOption){
-        <app-scrum-poker-card-component text="{{cardOption}}" [onClick]="setVote(cardOption)" [selected]="isSelectedvote(cardOption)"></app-scrum-poker-card-component>
+        <app-scrum-poker-card-component text="{{cardOption}}" [onClick]="setVote(cardOption)" [selected]="isSelectedvote(cardOption)" [hidden]="false"></app-scrum-poker-card-component>
       }
     </div>
   </div>
   <div>
     <div class="mt-4 flex gap-2">
-      <button class="bg-accents cursor-pointer text-primary px-4 py-2 rounded hover:opacity-90 transition">Delete Estimates</button>
-      <button class="bg-secondary cursor-pointer text-primary px-4 py-2 rounded hover:opacity-90 transition">Show</button>
+      <button  (click)="clearVotes()" class="bg-accents cursor-pointer text-primary px-4 py-2 rounded hover:opacity-90 transition">Delete Estimates</button>
+      <button 
+        (click)="toggleVotes()" 
+        class="bg-secondary cursor-pointer text-primary px-4 py-2 rounded hover:opacity-90 transition">
+        {{ room?.hidden ? 'Show' : 'Hide' }}
+      </button>
     </div>
 
     <h2 class="text-lg font-semibold mb-4 text-accents">Participants:</h2>
@@ -25,7 +29,7 @@
         @for (participant of room.participants; track participant.id) {
           <div class="p-4 flex items-center justify-between">
             <span class="text-accents">{{participant.name}}</span>
-            <app-scrum-poker-card-component text="{{participant.vote}}" [selected]="true" [disabled]="true"></app-scrum-poker-card-component>
+            <app-scrum-poker-card-component text="{{participant.vote}}" [selected]="true" [disabled]="true" [hidden]="room.hidden"></app-scrum-poker-card-component>
           </div>
         }
     </div>

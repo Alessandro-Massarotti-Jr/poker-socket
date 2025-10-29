@@ -16,7 +16,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 export class RoomPage {
   private roomId: string = '';
   public cardOptions: string[] = environment.cardOptions;
-  public room: Room = { id: '', participants: [] };
+  public room: Room = { id: '', hidden: true, participants: [] };
   public participant: { id: string; name: string } = { id: '', name: '' };
 
   form: FormGroup;
@@ -76,5 +76,22 @@ export class RoomPage {
     if (this.form.invalid) return;
     const participantName = this.form.value.name!.trim();
     this.roomService.joinRoom({ roomId: this.roomId, participantName: participantName });
+  }
+
+  clearVotes() {
+    this.roomService.clearRoomVotes({ roomId: this.roomId });
+  }
+
+  hideVotes() {}
+
+  toggleVotes() {
+    if (this.room) {
+      this.room.hidden = !this.room.hidden;
+      if (this.room.hidden) {
+        this.roomService.hideRoomVotes({ roomId: this.roomId });
+      } else {
+        this.roomService.showRoomVotes({ roomId: this.roomId });
+      }
+    }
   }
 }

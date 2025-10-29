@@ -11,5 +11,6 @@ export class ScrumPokerCardComponent {
   @Input() text: string = '';
   @Input() selected: boolean = false;
   @Input() disabled: boolean = false;
+  @Input() hidden: boolean = true;
   @Input() onClick: Function = () => {};
 }
