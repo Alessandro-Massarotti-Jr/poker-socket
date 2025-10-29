@@ -12,9 +12,7 @@ export class CreateRoomUsecase {
       id: data.participant.id,
       name: new Name(data.participant.name),
     });
-    const room = Room.create({
-      id: "1234",
-    });
+    const room = Room.create({});
     room.addParticipant(participant);
     this.roomRepository.save(room);
 

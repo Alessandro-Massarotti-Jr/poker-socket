@@ -20,7 +20,7 @@ export class CreateRoomWebSocketController {
     const room = await this.createRoomUseCase.execute({
       participant: { id: socket.id, name: validation.data.participantName },
     });
-    socket.join(room.id);
-    socket.in(room.id).emit("room:created", { room: room });
+    await socket.join(room.id);
+    socket.emit("room:created", { room: room });
   }
 }

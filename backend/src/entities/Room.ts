@@ -1,7 +1,8 @@
+import { randomUUID } from "node:crypto";
 import { Participant } from "./Participant";
 
 type props = {
-  id: string;
+  id?: string;
 };
 
 export class Room {
@@ -9,7 +10,7 @@ export class Room {
   public readonly participants: Participant[] = [];
 
   private constructor(props: props) {
-    this.id = props.id;
+    this.id = props.id ?? randomUUID();
   }
 
   public static create(props: props): Room {
