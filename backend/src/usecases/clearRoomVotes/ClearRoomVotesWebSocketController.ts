@@ -21,6 +21,7 @@ export class ClearRoomVotesWebSocketController {
       roomId: validation.data.roomId,
       participantId: socket.id,
     });
-    socket.in(room.id).emit("room:clearedVotes", { room: room });
+    socket.emit("room:clearedVotes", { room: room });
+    socket.to(room.id).emit("room:clearedVotes", { room: room });
   }
 }

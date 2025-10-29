@@ -23,6 +23,7 @@ export class SetRoomVoteWebSocketController {
       roomId: validation.data.roomId,
       vote: validation.data.vote,
     });
-    socket.in(room.id).emit("room:voted", { room: room });
+    socket.emit("room:voted", { room: room });
+    socket.to(room.id).emit("room:voted", { room: room });
   }
 }

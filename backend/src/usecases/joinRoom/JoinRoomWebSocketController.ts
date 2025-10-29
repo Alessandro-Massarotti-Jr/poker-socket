@@ -23,6 +23,7 @@ export class JoinRoomWebSocketController {
       participant: { id: socket.id, name: validation.data.participantName },
     });
     await socket.join(room.id);
-    socket.in(room.id).emit("room:Joined", { room: room });
+    socket.emit("room:Joined", { room: room });
+    socket.to(room.id).emit("room:Joined", { room: room });
   }
 }
