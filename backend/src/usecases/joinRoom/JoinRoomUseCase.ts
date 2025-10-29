@@ -1,6 +1,7 @@
 import { Participant } from "../../entities/Participant";
 import { Room } from "../../entities/Room";
 import { Name } from "../../entities/valueObjects/Name";
+import { RoomNotFoundError } from "../../errors/RoomNotFoundError";
 import { IRoomRepository } from "../../repositories/roomRepository/interfaces/IRoomRepository";
 import { JoinRoomDTO } from "./JoinRoomDTO";
 
@@ -11,7 +12,7 @@ export class JoinRoomUseCase {
     const room = await this.roomRepository.find({ id: data.roomId });
 
     if (!room) {
-      throw new Error("Room not found");
+      throw new RoomNotFoundError();
     }
 
     if (room.findParticipant(data.participant.id)) {
