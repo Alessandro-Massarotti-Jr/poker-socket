@@ -39,6 +39,10 @@ export class RoomService {
       this.roomSubject.next(room);
     });
 
+    this.socket.on('room:left', ({ room }) => {
+      this.roomSubject.next(room);
+    });
+
     this.socket.on('connect_error', () => {
       this.router.navigate(['/'], { state: { errorMessage: 'Error when connecting with server' } });
     });
