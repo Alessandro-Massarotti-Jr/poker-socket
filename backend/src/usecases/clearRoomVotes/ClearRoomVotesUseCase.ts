@@ -16,6 +16,7 @@ export class ClearRoomVotesUseCase {
     }
 
     room.clearVotes();
+    room.hideVotes();
     await this.roomRepository.save(room);
     return room;
   }
