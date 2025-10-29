@@ -1,5 +1,4 @@
 import { Socket, Server as WebSocketServer } from "socket.io";
-import { MemoryRoomRepository } from "./repositories/roomRepository/implementations/MemoryRoomRepository";
 import { createRoomWebSocketController } from "./usecases/createRoom";
 import { joinRoomWebSocketController } from "./usecases/joinRoom";
 import { setRoomVoteWebSocketController } from "./usecases/setRoomVote";
@@ -7,6 +6,7 @@ import { clearRoomVotesWebSocketController } from "./usecases/clearRoomVotes";
 import { CustomError } from "./errors/CustomError";
 import { createClient } from "redis";
 import { createAdapter } from "@socket.io/redis-adapter";
+import { leaveRoomWebSocketController } from "./usecases/leaveRoom";
 
 const publisherClient = createClient({
   url: process.env.REDIS_URL as string,
@@ -24,8 +24,6 @@ const webSocketServer = new WebSocketServer({
     methods: ["GET", "POST"],
   },
 });
-
-const roomRepository = MemoryRoomRepository.getInstance();
 
 const handlers = new Map<
   string,
@@ -78,34 +76,17 @@ webSocketServer.on("connection", (socket) => {
 
   socket.on("disconnecting", async (reason) => {
     for (const roomId of socket.rooms) {
-      const room = await roomRepository.find({ id: roomId });
-      if (room) {
-        room.removeParticipant(socket.id);
-
-        if (!room.hasParticipants()) {
-          await roomRepository.delete({ id: room.id });
-        } else {
-          await roomRepository.save(room);
-          socket.to(roomId).emit("room:left", { participantId: socket.id });
-        }
-      }
+      leaveRoomWebSocketController
+        .handle(socket, { roomId })
+        .catch((error) => {});
     }
   });
 
   socket.on("disconnect", async (reason) => {
     for (const roomId of socket.rooms) {
-      const room = await roomRepository.find({ id: roomId });
-      if (room) {
-        room.removeParticipant(socket.id);
-
-        if (!room.hasParticipants()) {
-          await roomRepository.delete({ id: room.id });
-        } else {
-          await roomRepository.save(room);
-        }
-
-        socket.to(roomId).emit("room:left", { participantId: socket.id });
-      }
+      leaveRoomWebSocketController
+        .handle(socket, { roomId })
+        .catch((error) => {});
     }
   });
 });
