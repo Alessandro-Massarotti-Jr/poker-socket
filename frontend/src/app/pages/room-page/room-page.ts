@@ -62,6 +62,16 @@ export class RoomPage {
     };
   }
 
+  isSelectedvote(vote: string): boolean {
+    const currentVote = this.room.participants.find(
+      (participant) => participant.id === this.participant.id
+    )?.vote;
+    if (!currentVote) {
+      return false;
+    }
+    return currentVote === vote;
+  }
+
   joinRoom() {
     if (this.form.invalid) return;
     const participantName = this.form.value.name!.trim();
