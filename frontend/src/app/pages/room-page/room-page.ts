@@ -4,11 +4,12 @@ import { ScrumPokerCardComponent } from '../../components/scrum-poker-card-compo
 import { environment } from '../../../environments/environment';
 import { RoomService } from '../../services/room-service';
 import { Room } from '../../interfaces/room';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   standalone: true,
   selector: 'app-room-page',
-  imports: [ScrumPokerCardComponent],
+  imports: [ReactiveFormsModule, ScrumPokerCardComponent],
   templateUrl: './room-page.html',
   styleUrl: './room-page.css',
 })
@@ -16,8 +17,19 @@ export class RoomPage {
   private roomId: string = '';
   public cardOptions: string[] = environment.cardOptions;
   public room: Room = { id: '', participants: [] };
+  public participant: { id: string; name: string } = { id: '', name: '' };
 
-  constructor(private route: ActivatedRoute, private roomService: RoomService) {}
+  form: FormGroup;
+
+  constructor(
+    private route: ActivatedRoute,
+    private roomService: RoomService,
+    private fb: FormBuilder
+  ) {
+    this.form = this.fb.group({
+      name: ['', Validators.required],
+    });
+  }
 
   ngOnInit(): void {
     this.roomId = this.route.snapshot.paramMap.get('id')!;
@@ -29,12 +41,30 @@ export class RoomPage {
         console.error(error);
       },
     });
-    this.roomService.joinRoom({ roomId: this.roomId, participantName: 'sample' });
+
+    this.roomService.participant$.subscribe({
+      next: (participant) => {
+        this.participant = participant;
+      },
+      error: (error) => {
+        console.error(error);
+      },
+    });
+
+    if (this.participant.name) {
+      this.roomService.joinRoom({ roomId: this.roomId, participantName: this.participant.name });
+    }
   }
 
   setVote(vote: string): Function {
     return () => {
       this.roomService.voteRoom({ roomId: this.roomId, vote });
     };
+  }
+
+  joinRoom() {
+    if (this.form.invalid) return;
+    const participantName = this.form.value.name!.trim();
+    this.roomService.joinRoom({ roomId: this.roomId, participantName: participantName });
   }
 }

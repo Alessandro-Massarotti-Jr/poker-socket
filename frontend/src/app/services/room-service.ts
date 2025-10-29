@@ -13,8 +13,19 @@ export class RoomService {
   private roomSubject = new BehaviorSubject<Room>({ id: '', participants: [] });
   public room$ = this.roomSubject.asObservable();
 
+  public participantSubject = new BehaviorSubject<{ id: string; name: string }>({
+    id: '',
+    name: '',
+  });
+  public participant$ = this.participantSubject.asObservable();
+
   constructor(private router: Router) {
     this.socket = io(environment.apiUrl);
+
+    this.socket.on('connect', () => {
+      this.participantSubject.next({ ...this.participantSubject.value, id: this.socket.id! });
+    });
+
     this.socket.on('room:created', ({ room }) => {
       this.roomSubject.next(room);
       this.router.navigate([`/room/${room.id}`]);
@@ -73,9 +84,11 @@ export class RoomService {
   }
 
   createRoom({ participantName }: { participantName: string }) {
+    this.setParticipantName({ participantName });
     this.socket.emit('room:create', { participantName });
   }
   joinRoom({ participantName, roomId }: { participantName: string; roomId: string }) {
+    this.setParticipantName({ participantName });
     this.socket.emit('room:join', { participantName, roomId });
   }
   voteRoom({ vote, roomId }: { vote: string; roomId: string }) {
@@ -83,5 +96,9 @@ export class RoomService {
   }
   clearRoomVotes({ roomId }: { roomId: string }) {
     this.socket.emit('room:clearVotes', { roomId });
+  }
+
+  setParticipantName({ participantName }: { participantName: string }) {
+    this.participantSubject.next({ ...this.participantSubject.value, name: participantName });
   }
 }

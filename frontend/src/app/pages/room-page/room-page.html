@@ -32,3 +32,32 @@
   </div>
 
 </div>
+
+@if(!participant.name){
+<div class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+ <div class="bg-white p-10 rounded-xl shadow-lg text-center w-full max-w-md">
+      <form [formGroup]="form" (ngSubmit)="joinRoom()" class="flex flex-col gap-2">
+        <div class="flex flex-col gap-1 items-start flex-1 w-full">
+            <label for="name" class="text-accents font-medium text-left  w-full">Participant name:</label>
+            <input 
+                type="text" 
+                id="name" 
+                formControlName="name"
+                class=" w-full border border-primary rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-secondary"
+                placeholder="Enter your name"
+                [class.border-red-500]="form.get('name')?.invalid && form.get('name')?.touched"
+            >
+            @if(form.get('name')?.invalid && form.get('name')?.touched){
+                <span  class="text-red-600 text-sm">Invalid name</span>
+            }
+        </div>
+      <button 
+        type="submit" 
+        class="bg-primary cursor-pointer text-white py-2 rounded-md font-semibold hover:bg-secondary transition-colors"
+      >
+        Join room
+      </button>
+    </form>
+</div>
+</div>
+}
