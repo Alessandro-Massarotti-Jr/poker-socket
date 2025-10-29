@@ -35,6 +35,11 @@ export class MemoryRoomRepository implements IRoomRepository {
         room.addParticipant(participant);
       }
     }
+
+    if (!roomData.hidden) {
+      room.showVotes();
+    }
+
     return room;
   }
   async save(data: SaveDTO): Promise<SaveReturnDTO> {

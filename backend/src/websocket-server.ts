@@ -7,6 +7,8 @@ import { CustomError } from "./errors/CustomError";
 import { createClient } from "redis";
 import { createAdapter } from "@socket.io/redis-adapter";
 import { leaveRoomWebSocketController } from "./usecases/leaveRoom";
+import { hideRoomVotesWebSocketController } from "./usecases/hideRoomVotes";
+import { showRoomVotesWebSocketController } from "./usecases/showRoomVotes";
 
 const publisherClient = createClient({
   url: process.env.REDIS_URL as string,
@@ -51,6 +53,18 @@ const handlers = new Map<
     "room:clearVotes",
     async (socket, params) => {
       await clearRoomVotesWebSocketController.handle(socket, params);
+    },
+  ],
+  [
+    "room:votesHide",
+    async (socket, params) => {
+      await hideRoomVotesWebSocketController.handle(socket, params);
+    },
+  ],
+  [
+    "room:votesShow",
+    async (socket, params) => {
+      await showRoomVotesWebSocketController.handle(socket, params);
     },
   ],
 ]);

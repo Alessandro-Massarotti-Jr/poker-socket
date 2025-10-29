@@ -7,6 +7,7 @@ type props = {
 
 export class Room {
   public readonly id: string;
+  public hidden: boolean = true;
   public readonly participants: Participant[] = [];
 
   private constructor(props: props) {
@@ -42,5 +43,13 @@ export class Room {
 
   public hasParticipants(): boolean {
     return this.participants.length > 0;
+  }
+
+  public showVotes() {
+    this.hidden = false;
+  }
+
+  public hideVotes() {
+    this.hidden = true;
   }
 }
