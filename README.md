@@ -13,7 +13,7 @@ My goal is to create a distributed application that allows users to play Scrum P
 
 In the first diagram, when I was thinking about the functionalities of this project, I came up with the following result:
 
-<img alt="initial diagram image" src="/docs/initial-diagram.png">
+<img alt="initial diagram image" src="./docs/initial-diagram.png">
 
 A system with four main functions centered around Scrum Poker room management.
 
