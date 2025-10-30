@@ -9,7 +9,17 @@
 
 This Repository is for a scrum poker aplication Using webSockets for communication
 
-My goal here is to create a distributed application that allow users to do a scrum poker with realtime states for better voting sessions
+My goal is to create a distributed application that allows users to play Scrum Poker with real-time state updates for better voting sessions.
+
+In the first diagram, when I was thinking about the functionalities of this project, I came up with the following result:
+
+<img alt="initial diagram image" src="/docs/initial-diagram.png">
+
+A system with four main functions centered around Scrum Poker room management.
+
+I decided to use a key-value store database because each room has its own data. Since I don’t need or want to persist data, I’ve been considering using Redis from the start because of its high availability.
+
+For the UI, I am trying out Angular to expand my horizons.
 
 ## summary
 
@@ -65,7 +75,6 @@ docker build -f ./backend/.docker/Dockerfile -t poker-socket-backend:1.0.0 ./bac
 
 ### TO DO
 
-- [] Transform into a distributed app (Redis for database and Rabbit to send Messages to other sockets?)
 - [] Add error trancing (Maybe Sentry?)
 - [] Add a data mapper for Room entity to Json (This is to return correct data to to diferent clients from the same base entity returned by usecases)
 - [] Add Otel (Open telemetry) and export the data to some place (Jaegger, Grafana, ...)
