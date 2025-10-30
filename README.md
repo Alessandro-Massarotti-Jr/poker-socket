@@ -1,5 +1,12 @@
 # poker-socket
 
+<p>
+  <img src="https://img.shields.io/badge/made%20by-Alessandro%20Massarotti%20Jr-AB886D?style=flat-square">
+  <img src="https://img.shields.io/badge/Node.js-24-AB886D?style=flat-square">
+  <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/alessandro-massarotti-Jr/poker-socket?color=AB886D&style=flat-square">
+  <img alt="GitHub Top Language" src="https://img.shields.io/github/languages/top/alessandro-massarotti-Jr/poker-socket?color=AB886D&style=flat-square">
+</p>
+
 This Repository is for a scrum poker aplication Using webSockets for communication
 
 My goal here is to create a distributed application that allow users to do a scrum poker with realtime states for better voting sessions
