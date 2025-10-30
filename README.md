@@ -36,6 +36,12 @@ npm run start-dev
 
 #### Production
 
+Build a docker image with command:
+
+```bash
+docker build -f ./backend/.docker/Dockerfile -t poker-socket-backend:1.0.0 ./backend
+```
+
 
 ### TO DO
 
@@ -79,6 +85,12 @@ npm run start
 
 
 #### production
+
+Build a docker image with command:
+
+```bash
+docker build -f ./frontend/.docker/Dockerfile -t poker-socket-frontend:1.0.0 ./frontend
+```
 
 ### TO DO
 
