@@ -6,6 +6,19 @@ My goal here is to create a distributed application that allow users to do a scr
 
 ## summary
 
+- [poker-socket](#poker-socket)
+  - [summary](#summary)
+  - [backend](#backend)
+    - [Run](#run)
+      - [Develop](#develop)
+      - [Production](#production)
+    - [TO DO](#to-do)
+  - [frontend](#frontend)
+    - [Run](#run-1)
+      - [Develop](#develop-1)
+      - [production](#production-1)
+    - [TO DO](#to-do-1)
+
 ## backend
 
 Node.js project using [socket.io](https://socket.io/) to create and manage websockets connections
