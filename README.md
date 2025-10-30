@@ -1,29 +1,43 @@
+# poker-socket
+
 This Repository is for a scrum poker aplication Using webSockets for communication
 
 My goal here is to create a distributed application that allow users to do a scrum poker with realtime states for better voting sessions
 
-# backend
+## summary
+
+## backend
 
 Node.js project using [socket.io](https://socket.io/) to create and manage websockets connections
 
-## Develop
+### Run
+
+#### Develop
 
 Run inside a container with docker:
+
+- start services if not started yet
 
 ```bash
 docker compose up
 ```
 
+- access container shell
+
 ```bash
 docker compose exec backend sh
 ```
+
+- run the start command in the container shell
 
 ```sh
 npm run start-dev
 ```
 
+#### Production
 
-## TO DO
+
+### TO DO
 
 - [] Transform into a distributed app (Redis for database and Rabbit to send Messages to other sockets?)
 - [] Add error trancing (Maybe Sentry?)
@@ -31,7 +45,7 @@ npm run start-dev
 - [] Add Otel (Open telemetry) and export the data to some place (Jaegger, Grafana, ...)
 - [] improve DDD, add base entities, work more with event domains and agregattes, use more value objects
 
-# frontend
+## frontend
 
 A interface created using [Angular](https://angular.dev/) with [tailwindcss](https://tailwindcss.com/)
 
@@ -39,28 +53,41 @@ Using [socket.io](https://socket.io/) to connect with the websocket server
 
 Used icons is from the [phosphoricons](https://phosphoricons.com/) library
 
-## Develop
+### Run
+
+#### Develop
 
 Run inside a container with docker:
+
+- start services if not started yet
 
 ```bash
 docker compose up
 ```
 
+- access container shell
 
 ```bash
 docker compose exec frontend sh
 ```
+
+- run the start command in the container shell
 
 ```sh
 npm run start
 ```
 
 
-## TO DO
+#### production
+
+### TO DO
 
 - [] add unit tests
 - [] improve system architecture
+- [] improve error messages and ui
+
+
+
 
 
 
