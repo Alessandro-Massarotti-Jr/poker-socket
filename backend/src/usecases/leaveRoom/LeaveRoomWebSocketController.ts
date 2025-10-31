@@ -21,7 +21,9 @@ export class LeaveRoomWebSocketController {
       roomId: validation.data.roomId,
       participantId: socket.id,
     });
-
+    if (socket.rooms.has(validation.data.roomId)) {
+      socket.leave(validation.data.roomId);
+    }
     if (room) {
       socket.to(room.id).emit("room:left", { room: room });
     }
