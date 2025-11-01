@@ -1,0 +1,67 @@
+services:
+  backend1:
+    build:
+      context: ./backend
+      dockerfile: ./.docker/Dockerfile.dev
+    command: "/home/node/app/.docker/start-infra.sh"
+    container_name: backend1
+    environment:
+      - PORT=3000
+    volumes:
+      - ./backend:/home/node/app:cached
+    expose:
+      - "3000"
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  backend2:
+    build:
+      context: ./backend
+      dockerfile: ./.docker/Dockerfile.dev
+    command: "/home/node/app/.docker/start-infra.sh"
+    container_name: backend2
+    environment:
+      - PORT=3000
+    volumes:
+      - ./backend:/home/node/app:cached
+    expose:
+      - "3000"
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  redis:
+    image: redis:8.2.2-alpine
+    container_name: redis
+    restart: always
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    depends_on:
+      - backend1
+      - backend2
+      - frontend
+    ports:
+      - "3000:80"
+    volumes:
+      - ./infra/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    restart: always
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: ./.docker/Dockerfile.dev
+    command: "/home/node/app/.docker/start-infra.sh"
+    container_name: frontend
+    volumes:
+      - ./frontend:/home/node/app:cached
+    ports:
+      - "4200:4200"

@@ -21,6 +21,14 @@ I decided to use a key-value store database because each room has its own data. 
 
 For the UI, I am trying out Angular to expand my horizons.
 
+for easily test the project run this command:
+
+```bash
+ docker compose -f docker-compose.infra.yaml up
+```
+
+That command will setup a compose project with nginx server dealing with multiple instances of backend, the interface will be dislayed at `http://localhost:4200`
+
 ## summary
 
 - [poker-socket](#poker-socket)

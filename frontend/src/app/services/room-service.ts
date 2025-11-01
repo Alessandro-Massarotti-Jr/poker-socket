@@ -20,7 +20,7 @@ export class RoomService {
   public participant$ = this.participantSubject.asObservable();
 
   constructor(private router: Router) {
-    this.socket = io(environment.apiUrl);
+    this.socket = io(environment.apiUrl, { transports: ['websocket'] });
 
     this.socket.on('connect', () => {
       this.participantSubject.next({ ...this.participantSubject.value, id: this.socket.id! });
